@@ -28,6 +28,7 @@ It is built as a learning project to practice layout design, responsiveness, and
 HTML5
 
 CSS3 (Flexbox + Grid)
+Javascript
 
 # 📁 Folder Structure
 php
@@ -46,7 +47,6 @@ amazon-clone/
 1️⃣ Clone the repository
 bash
 
-git clone https://github.com/your-username/amazon-clone.git
 cd amazon-clone
 2️⃣ Open index.html in your browser
 You can double-click index.html to open it.
