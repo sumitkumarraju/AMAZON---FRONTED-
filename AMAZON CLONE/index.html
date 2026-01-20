@@ -1,187 +1,772 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Amazon</title>
-  <link rel="stylesheet" href="style.css"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Clone - All in One</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- CSS STYLES --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #e3e6e6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            height: 60px;
+            background-color: #0f1111;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-logo {
+            height: 50px;
+            width: 113px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo {
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/1024px-Amazon_logo.svg.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            height: 30px;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .border {
+            border: 1.5px solid transparent;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 2px;
+        }
+
+        .border:hover {
+            border: 1.5px solid white;
+        }
+
+        /* Address */
+        .add-first {
+            font-size: 0.75rem;
+            color: #cccccc;
+            margin-left: 15px;
+        }
+
+        .add-second {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-left: 3px;
+        }
+
+        .add-icon {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Search Bar */
+        .nav-search {
+            display: flex;
+            justify-content: space-evenly;
+            background-color: pink;
+            width: 50%; /* Flexible width */
+            height: 40px;
+            border-radius: 4px;
+        }
+
+        .search-select {
+            background-color: #f3f3f3;
+            width: 50px;
+            text-align: center;
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+            border: none;
+            color: #555;
+            font-size: 0.8rem;
+        }
+
+        .search-input {
+            width: 100%;
+            font-size: 1rem;
+            border: none;
+            padding-left: 10px;
+            outline: none;
+        }
+
+        .search-icon {
+            width: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            background-color: #febd68;
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+            color: #0f1111;
+            cursor: pointer;
+        }
+
+        .search-icon:hover {
+            background-color: #f3a847;
+        }
+
+        /* Signin & Cart */
+        .nav-signin p span {
+            font-size: 0.7rem;
+        }
+
+        .nav-second {
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .nav-cart {
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: flex;
+            align-items: flex-end;
+        }
+        .nav-cart i {
+            font-size: 30px;
+        }
+        .cart-count {
+            color: #f08804;
+            font-size: 16px;
+            margin-left: -18px;
+            margin-bottom: 12px;
+            font-weight: bold;
+            z-index: 10;
+        }
+
+        /* Panel */
+        .panel {
+            height: 40px;
+            background-color: #222f3d;
+            display: flex;
+            color: white;
+            align-items: center;
+            padding-left: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .panel-all {
+            font-weight: bold;
+            margin-right: 20px;
+            cursor: pointer;
+        }
+
+        .panel-ops p {
+            display: inline;
+            margin-left: 15px;
+            cursor: pointer;
+        }
+        .panel-ops p:hover {
+            text-decoration: underline;
+        }
+
+        /* --- VIEWS --- */
+        .view {
+            display: none; /* Hidden by default */
+            flex: 1;
+        }
+        .view.active {
+            display: block; /* Show active view */
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background-image: url('https://images-eu.ssl-images-amazon.com/images/G/31/img22/Unrec/TallHero_3000X1200_Unrec._CB593464763_.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            position: relative;
+        }
+        
+        /* Gradient fade at bottom of hero */
+        .hero-section::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, #e3e6e6);
+        }
+
+        .hero-msg {
+            background-color: #f5f6f6;
+            color: black;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            width: 95%;
+            margin-bottom: 25px;
+            z-index: 10;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .hero-msg a {
+            color: #007185;
+            text-decoration: none;
+        }
+
+        /* Shop Section (Products) */
+        .shop-section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            background-color: #e3e6e6;
+            padding: 20px;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 20;
+            margin-top: -150px; /* Overlap hero image */
+        }
+
+        .box {
+            background-color: white;
+            padding: 20px;
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s;
+            z-index: 20;
+        }
+
+        .box-img {
+            height: 200px;
+            width: 100%;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin-bottom: 15px;
+        }
+
+        .box-content {
+            text-align: left;
+            width: 100%;
+        }
+        
+        .box-content h3 {
+            font-size: 1rem;
+            margin-bottom: 5px;
+            height: 40px;
+            overflow: hidden;
+        }
+
+        .price {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        .price span {
+            font-size: 0.8rem;
+            vertical-align: top;
+        }
+
+        .add-btn {
+            background-color: #ffd814;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+        .add-btn:hover {
+            background-color: #f7ca00;
+        }
+
+        /* Cart Page Styles */
+        .cart-container {
+            padding: 30px;
+            background-color: white;
+            max-width: 1000px;
+            margin: 20px auto;
+            min-height: 400px;
+        }
+        
+        .cart-header {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            font-weight: 400;
+        }
+
+        .cart-item {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            padding: 20px 0;
+        }
+
+        .cart-item-img {
+            width: 150px;
+            height: 150px;
+            object-fit: contain;
+        }
+        
+        .cart-item-details {
+            flex: 1;
+            margin-left: 20px;
+        }
+        
+        .cart-item-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #007185;
+            margin-bottom: 5px;
+        }
+        
+        .stock-status {
+            color: #007600;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+
+        .qty-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .qty-btn {
+            background-color: #f0f2f2;
+            border: 1px solid #d5d9d9;
+            border-radius: 8px;
+            padding: 5px 10px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(15,17,17,.15);
+        }
+
+        .delete-btn {
+            color: #007185;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-decoration: underline;
+            margin-left: 15px;
+            font-size: 0.9rem;
+        }
+
+        .cart-total {
+            text-align: right;
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin-top: 20px;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: auto; /* Pushes footer to bottom */
+        }
+
+        .foot-panel1 {
+            background-color: #37475a;
+            color: white;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+        .foot-panel1:hover {
+            background-color: #485769;
+        }
+
+        .foot-panel2 {
+            background-color: #222f3d;
+            color: white;
+            padding: 40px 0;
+            display: flex;
+            justify-content: space-evenly;
+            flex-wrap: wrap;
+        }
+
+        .foot-panel2 ul {
+            list-style: none;
+            margin: 10px;
+        }
+
+        .foot-panel2 p {
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .foot-panel2 a {
+            display: block;
+            font-size: 0.85rem;
+            margin-top: 8px;
+            color: #dddddd;
+            text-decoration: none;
+        }
+        .foot-panel2 a:hover {
+            text-decoration: underline;
+        }
+
+        .foot-panel3 {
+            background-color: #222f3d;
+            color: white;
+            border-top: 1px solid #3a4553;
+            height: 70px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .copyright {
+            background-color: #131a22;
+            color: #ddd;
+            text-align: center;
+            font-size: 0.75rem;
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
 
-  <!-- Header -->
-  <header>
-    <div class="navbar">
-      <div class="nav-logo border">
-        <div class="logo"></div>
-      </div>
-      <div class="nav-address">
-        <a href="https://maps.app.goo.gl/f8P3dZrmtX4PwVcT9" target="_blank" rel="noopener noreferrer">
-          <p class="add-first">Deliver to</p>
-          <div class="add-icon">
-            <i class="fa-solid fa-location-dot"></i>
-            <p class="add-second">India</p>
-          </div>
-        </a>
-      </div>
+    <header>
+        <div class="navbar">
+            <div class="nav-logo border" onclick="showHome()">
+                <div class="logo"></div>
+            </div>
 
-      <div class="nav-search">
-        <select class="search-select">
-          <option>All</option>
-        </select>
-        <input placeholder="Search Amazon" class="search-input"/>
-        <div class="search-icon">
-          <i class="fa-solid fa-magnifying-glass"></i>
+            <div class="nav-address border">
+                <p class="add-first">Deliver to</p>
+                <div class="add-icon">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <p class="add-second">India</p>
+                </div>
+            </div>
+
+            <div class="nav-search">
+                <select class="search-select">
+                    <option>All</option>
+                </select>
+                <input placeholder="Search Amazon" class="search-input" id="searchBar">
+                <div class="search-icon">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+            </div>
+
+            <div class="nav-signin border">
+                <p><span>Hello, sign in</span></p>
+                <p class="nav-second">Account & Lists</p>
+            </div>
+
+            <div class="nav-return border">
+                <p><span>Returns</span></p>
+                <p class="nav-second">& Orders</p>
+            </div>
+
+            <div class="nav-cart border" onclick="showCart()">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span id="cart-count" class="cart-count">0</span>
+                Cart
+            </div>
         </div>
-      </div>
 
-      <div class="nav-signin border">
-        <p><span>Hello, sign in</span></p>
-        <p class="nav-second">Account & Lists</p>
-      </div>
+        <div class="panel">
+            <div class="panel-all">
+                <i class="fa-solid fa-bars"></i>
+                All
+            </div>
+            <div class="panel-ops">
+                <p onclick="filterCategory('electronics')">Electronics</p>
+                <p onclick="filterCategory('fashion')">Fashion</p>
+                <p onclick="filterCategory('home')">Home & Kitchen</p>
+                <p>Gift Cards</p>
+                <p>Sell</p>
+            </div>
+        </div>
+    </header>
 
-      <div class="nav-return border">
-        <p><span>Returns</span></p>
-        <p class="nav-second">& Orders</p>
-      </div>
+    <div id="home-view" class="view active">
+        <div class="hero-section">
+            <div class="hero-msg">
+                <p>You are on amazon.com. You can also shop on Amazon India for millions of products with fast local delivery. <a href="#">Click here to go to amazon.in</a></p>
+            </div>
+        </div>
 
-      <div class="nav-cart border">
-        <i class="fa-solid fa-cart-shopping"></i>
-        Cart
-      </div>
+        <div class="shop-section" id="shop-section">
+            </div>
     </div>
 
-    <div class="panel">
-      <div class="panel-all">
-        <i class="fa-solid fa-bars"></i>
-        All
-      </div>
-      <div class="panel-ops">
-        <p>Today's Deals</p>
-        <p>Customer Service</p>
-        <p>Registry</p>
-        <p>Gift Cards</p>
-        <p>Sell</p>
-      </div>
-      <div class="panel-deals">Shop deals in Electronics</div>
-      <div class="panel-deals">Shop deals in Home</div>
-    </div>
-  </header>
-
-  <!-- Hero Section -->
-  <div class="hero-section">
-    <div class="hero-msg">
-      <p>You are on amazon.com. You can also shop on Amazon India for millions of products with fast local delivery. <a href="#">Click here to go to amazon.in</a></p>
-    </div>
-  </div>
-
-  <!-- Shop Section -->
-  <div class="shop-section">
-    <div class="box box1">
-      <div class="box-content">
-        <h2>Clothes</h2>
-        <div class="box-img" style="background-image: url('box1_image.jpg');"></div>
-        <p>See more</p>
-      </div>
+    <div id="cart-view" class="view">
+        <div class="cart-container">
+            <h1 class="cart-header">Shopping Cart</h1>
+            <p id="empty-cart-msg" style="display:none;">Your Amazon Cart is empty.</p>
+            <div style="text-align: right; font-size: 0.85rem; color: #565959; border-bottom: 1px solid #ddd; padding-bottom: 5px;">Price</div>
+            
+            <div id="cart-items">
+                </div>
+            
+            <div class="cart-total">
+                <p id="subtotal">Subtotal (0 items): <strong>₹0</strong></p>
+                <button class="add-btn" style="width: 200px; margin-top: 15px;">Proceed to Buy</button>
+            </div>
+        </div>
     </div>
 
-    <div class="box box2">
-      <div class="box-content">
-        <h2>Health & Personal Care</h2>
-        <div class="box-img" style="background-image: url('box2_image.jpg');"></div>
-        <p>See more</p>
-      </div>
-    </div>
+    <footer>
+        <div class="foot-panel1" onclick="window.scrollTo(0,0)">Back to Top</div>
+        <div class="foot-panel2">
+            <ul>
+                <p>Get to Know Us</p>
+                <a href="#">Careers</a>
+                <a href="#">Blog</a>
+                <a href="#">About Amazon</a>
+                <a href="#">Investor Relations</a>
+            </ul>
+            <ul>
+                <p>Make Money with Us</p>
+                <a href="#">Sell products on Amazon</a>
+                <a href="#">Sell on Amazon Business</a>
+                <a href="#">Sell apps on Amazon</a>
+                <a href="#">Become an Affiliate</a>
+            </ul>
+            <ul>
+                <p>Amazon Payment Products</p>
+                <a href="#">Amazon Business Card</a>
+                <a href="#">Shop with Points</a>
+                <a href="#">Reload Your Balance</a>
+            </ul>
+            <ul>
+                <p>Let Us Help You</p>
+                <a href="#">Amazon and COVID-19</a>
+                <a href="#">Your Account</a>
+                <a href="#">Your Orders</a>
+                <a href="#">Help</a>
+            </ul>
+        </div>
+        <div class="foot-panel3">
+            <div class="logo"></div>
+        </div>
+        <div class="copyright">
+            © 1996-2024, Amazon.com, Inc. or its affiliates
+        </div>
+    </footer>
 
-    <div class="box box3">
-      <div class="box-content">
-        <h2>Furniture</h2>
-        <div class="box-img" style="background-image: url('box3_image.jpg');"></div>
-        <p>See more</p>
-      </div>
-    </div>
+    <script>
+        // --- 1. DATA (Fake Database) ---
+        const products = [
+            { id: 1, title: "Apple iPhone 14 (128 GB) - Blue", price: 58999, category: "electronics", image: "https://m.media-amazon.com/images/I/61bK6PMOC3L._AC_UY327_FMwebp_QL65_.jpg" },
+            { id: 2, title: "Samsung Galaxy S23 Ultra 5G", price: 124999, category: "electronics", image: "https://m.media-amazon.com/images/I/51hqXIAVXAL._AC_UY327_FMwebp_QL65_.jpg" },
+            { id: 3, title: "Sony WH-1000XM5 Headphones", price: 26990, category: "electronics", image: "https://m.media-amazon.com/images/I/51SKmu2G9FL._AC_UY327_FMwebp_QL65_.jpg" },
+            { id: 4, title: "Apple MacBook Air M2 Chip", price: 114900, category: "electronics", image: "https://m.media-amazon.com/images/I/71f5Eu5lJSL._AC_UY327_FMwebp_QL65_.jpg" },
+            { id: 5, title: "Nike Men's Revolution 6 NN Running Shoes", price: 3695, category: "fashion", image: "https://m.media-amazon.com/images/I/71oEKkghg-L._AC_UL480_FMwebp_QL65_.jpg" },
+            { id: 6, title: "Fastrack Limitless FS1 Pro Smartwatch", price: 1995, category: "electronics", image: "https://m.media-amazon.com/images/I/61S9aVnRZDL._AC_UY327_FMwebp_QL65_.jpg" },
+            { id: 7, title: "PlayStation 5 Console (PS5)", price: 49990, category: "electronics", image: "https://m.media-amazon.com/images/I/51mWHXY8hyL._AC_UY327_FMwebp_QL65_.jpg" },
+            { id: 8, title: "Canon EOS 1500D 24.1 Digital SLR", price: 41990, category: "electronics", image: "https://m.media-amazon.com/images/I/914hFeTU2-L._AC_UY327_FMwebp_QL65_.jpg" },
+            { id: 9, title: "Puma Men's T-Shirt", price: 699, category: "fashion", image: "https://m.media-amazon.com/images/I/51z-s8qF+DL._AC_UL480_FMwebp_QL65_.jpg" },
+            { id: 10, title: "Prestige Iris 750 Watt Mixer Grinder", price: 3299, category: "home", image: "https://m.media-amazon.com/images/I/51O1N7c-sIL._AC_UY327_FMwebp_QL65_.jpg" }
+        ];
 
-    <div class="box box4">
-      <div class="box-content">
-        <h2>Electronics</h2>
-        <div class="box-img" style="background-image: url('box4_image.jpg');"></div>
-        <p>See more</p>
-      </div>
-    </div>
+        // --- 2. SELECTORS ---
+        const homeView = document.getElementById('home-view');
+        const cartView = document.getElementById('cart-view');
+        const shopSection = document.getElementById('shop-section');
+        const cartItemsContainer = document.getElementById('cart-items');
+        const subtotalElement = document.getElementById('subtotal');
+        const cartCountElement = document.getElementById('cart-count');
+        const searchInput = document.getElementById('searchBar');
 
-    <div class="box box5">
-      <div class="box-content">
-        <h2>Cosmetics</h2>
-        <div class="box-img" style="background-image: url('box5_image.jpg');"></div>
-        <p>See more</p>
-      </div>
-    </div>
+        // --- 3. INIT ---
+        window.onload = () => {
+            renderProducts(products);
+            updateCartCount();
+        };
 
-    <div class="box box6">
-      <div class="box-content">
-        <h2>Animal Supplies</h2>
-        <div class="box-img" style="background-image: url('box6_image.jpg');"></div>
-        <p>See more</p>
-      </div>
-    </div>
+        // --- 4. NAVIGATION FUNCTIONS ---
+        function showHome() {
+            homeView.classList.add('active');
+            cartView.classList.remove('active');
+            window.scrollTo(0, 0);
+        }
 
-    <div class="box box7">
-      <div class="box-content">
-        <h2>Toys</h2>
-        <div class="box-img" style="background-image: url('box7_image.jpg');"></div>
-        <p>See more</p>
-      </div>
-    </div>
+        function showCart() {
+            homeView.classList.remove('active');
+            cartView.classList.add('active');
+            renderCart();
+            window.scrollTo(0, 0);
+        }
 
-    <div class="box box8">
-      <div class="box-content">
-        <h2>Fashion</h2>
-        <div class="box-img" style="background-image: url('box8_image.jpg');"></div>
-        <p>See more</p>
-      </div>
-    </div>
-  </div>
+        // --- 5. HOME PAGE LOGIC ---
+        function renderProducts(list) {
+            shopSection.innerHTML = "";
+            if (list.length === 0) {
+                shopSection.innerHTML = "<h2 style='width:100%; text-align:center; padding: 50px;'>No products found</h2>";
+                return;
+            }
 
-  <!-- Footer -->
-  <footer>
-    <div class="foot-panel1">Back to top</div>
+            list.forEach(product => {
+                shopSection.innerHTML += `
+                    <div class="box">
+                        <div class="box-content">
+                            <div class="box-img" style="background-image: url('${product.image}');"></div>
+                            <h3>${product.title}</h3>
+                            <p class="price"><span>₹</span>${product.price.toLocaleString()}</p>
+                            <button class="add-btn" onclick="addToCart(${product.id})">Add to Cart</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
 
-    <div class="foot-panel2">
-      <ul>
-        <p>Get to know us</p>
-        <a>Careers</a>
-        <a>Blog</a>
-        <a>About Amazon</a>
-        <a>Investor Relations</a>
-        <a>Amazon Devices</a>
-        <a>Amazon Science</a>
-      </ul>
+        // Search Filter
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const filtered = products.filter(p => p.title.toLowerCase().includes(query));
+            
+            // If on cart page, switch back to home to show results
+            if(cartView.classList.contains('active')) {
+                showHome();
+            }
+            renderProducts(filtered);
+        });
 
-      <ul>
-        <p>Make Money with Us</p>
-        <a>Sell products</a>
-        <a>Affiliate Program</a>
-        <a>Self-Publish</a>
-        <a>Advertise Your Products</a>
-        <a>Host on Amazon Hub</a>
-      </ul>
-    </div>
+        // Category Filter
+        function filterCategory(category) {
+            const filtered = products.filter(p => p.category === category);
+            showHome();
+            renderProducts(filtered);
+        }
 
-    <div class="foot-panel3">
-      <div class="logo"></div>
-    </div>
+        // --- 6. CART LOGIC ---
+        
+        // Helper: Get cart from LocalStorage
+        function getCart() {
+            return JSON.parse(localStorage.getItem('amazonCloneCart')) || [];
+        }
 
-    <div class="foot-panel4">
-      <div class="pages">
-        <a>Conditions of Use</a>
-        <a>Privacy Notice</a>
-        <a>Your Ads Privacy Choices</a>
-      </div>
-      <div class="copyright">
-        © 1996-2023, Amazon.com, Inc. or its affiliates
-      </div>
-    </div>
-  </footer>
+        // Helper: Save cart to LocalStorage
+        function saveCart(cart) {
+            localStorage.setItem('amazonCloneCart', JSON.stringify(cart));
+            updateCartCount();
+        }
 
+        function addToCart(id) {
+            let cart = getCart();
+            let item = cart.find(p => p.id === id);
+
+            if (item) {
+                item.qty++;
+            } else {
+                cart.push({ id: id, qty: 1 });
+            }
+            saveCart(cart);
+            
+            // Animation feedback
+            const btn = event.target;
+            const originalText = btn.innerText;
+            btn.innerText = "Added ✔";
+            btn.style.backgroundColor = "#90EE90";
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.style.backgroundColor = "#ffd814";
+            }, 1000);
+        }
+
+        function renderCart() {
+            const cart = getCart();
+            cartItemsContainer.innerHTML = "";
+            let total = 0;
+            let totalItems = 0;
+
+            if (cart.length === 0) {
+                document.getElementById('empty-cart-msg').style.display = 'block';
+                subtotalElement.innerHTML = `Subtotal (0 items): <strong>₹0</strong>`;
+                return;
+            } else {
+                document.getElementById('empty-cart-msg').style.display = 'none';
+            }
+
+            cart.forEach(cartItem => {
+                const product = products.find(p => p.id === cartItem.id);
+                if (product) {
+                    const itemTotal = product.price * cartItem.qty;
+                    total += itemTotal;
+                    totalItems += cartItem.qty;
+
+                    cartItemsContainer.innerHTML += `
+                        <div class="cart-item">
+                            <img src="${product.image}" class="cart-item-img" alt="${product.title}">
+                            <div class="cart-item-details">
+                                <div class="cart-item-title">${product.title}</div>
+                                <div class="stock-status">In Stock</div>
+                                <div style="font-size:0.9rem; color:#565959;">Eligible for FREE Shipping</div>
+                                <div class="qty-controls">
+                                    <button class="qty-btn" onclick="updateQty(${product.id}, -1)">-</button>
+                                    <span>${cartItem.qty}</span>
+                                    <button class="qty-btn" onclick="updateQty(${product.id}, 1)">+</button>
+                                    <span style="color:#ddd; margin: 0 10px;">|</span>
+                                    <button class="delete-btn" onclick="removeFromCart(${product.id})">Delete</button>
+                                </div>
+                            </div>
+                            <div style="font-weight:700; font-size:1.1rem;">
+                                ₹${product.price.toLocaleString()}
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            subtotalElement.innerHTML = `Subtotal (${totalItems} items): <strong>₹${total.toLocaleString()}</strong>`;
+        }
+
+        function updateQty(id, change) {
+            let cart = getCart();
+            let item = cart.find(p => p.id === id);
+            if (item) {
+                item.qty += change;
+                if (item.qty < 1) {
+                    removeFromCart(id);
+                    return;
+                }
+            }
+            saveCart(cart);
+            renderCart();
+        }
+
+        function removeFromCart(id) {
+            let cart = getCart();
+            cart = cart.filter(p => p.id !== id);
+            saveCart(cart);
+            renderCart();
+        }
+
+        function updateCartCount() {
+            const cart = getCart();
+            const count = cart.reduce((acc, item) => acc + item.qty, 0);
+            cartCountElement.innerText = count;
+        }
+
+    </script>
 </body>
 </html>
